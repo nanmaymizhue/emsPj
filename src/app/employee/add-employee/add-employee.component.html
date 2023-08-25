@@ -1,0 +1,219 @@
+<div class="container mt-3 mb-5 w-50">   
+    <div class="card">
+      <h3 class="card-header p-3">Employee <span class="float-end"><a routerLink="" class="text-decoration-none"><i class="fa-solid fa-xmark"></i></a></span></h3>
+      <div class="card-body">
+        <form [formGroup]="addEmployeeForm" (ngSubmit)="submitForm()">
+          <div class="p-3">            
+              <img [src]="profileImageUrl" alt="ProfileImage" (click)="uploadModal()"
+              style="cursor: pointer"/>    
+
+            <ng-template #content let-modal>
+              <div class="modal-header">
+                <h3>Choose Image For Upload</h3>
+                <a class="close" aria-label="Close"  (click)="modal.dismiss()">
+                  <span aria-hidden="true"><i class="fa-solid fa-xmark"></i></span>         
+                </a>
+              </div>
+              <div class="modal-body p-4">
+                <form>
+                  <input type="file" (change)="onFileSelected($event)" class="form-control" name="imageFile" />
+                  <br>
+                  <!-- <img *ngIf="selectedImage" [src]="selectedImage" alt="UploadedImage" /> -->
+                </form>
+              </div>
+              <div class="modal-footer">               
+              </div>
+            </ng-template>
+
+          </div>
+          <div class="d-flex">
+            <div class="w-50 m-3">
+              <div class="mb-3">
+                <label for="employeeId" class="form-label">Employee ID <span class="text-danger">*</span></label>
+                <input [readonly]="syskey != undefined" type="text" class="form-control" id="employeeId" formControlName="employeeId" >
+                <div *ngIf="addEmployeeForm.get('employeeId')?.invalid && addEmployeeForm.get('employeeId')?.touched">
+                  <p class="text-danger" *ngIf="addEmployeeForm.get('employeeId')?.errors?.['required']">Employee ID is required.</p>
+                </div>
+              </div>
+             
+              <div class="mb-3">
+                <label for="position" class="form-label">Position <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="position" formControlName="position"/>
+                <div *ngIf="addEmployeeForm.get('position')?.invalid && addEmployeeForm.get('position')?.touched">
+                  <p class="text-danger" *ngIf="addEmployeeForm.get('position')?.errors?.['required']">Position is required.</p>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="nrc" class="form-label">Nrc No <span class="text-danger">*</span></label>
+                <input [readonly]="syskey != undefined" type="text" class="form-control" id="nrc" formControlName="nrc"/>
+                <div *ngIf="addEmployeeForm.get('nrc')?.invalid && addEmployeeForm.get('nrc')?.touched">
+                  <p class="text-danger" *ngIf="addEmployeeForm.get('nrc')?.errors?.['required']">Nrc is required.</p>
+                </div>
+              </div> 
+              <div class="mb-3">
+                <label for="fatherName" class="form-label">Father Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="fatherName" formControlName="fatherName"/>
+                <div *ngIf="addEmployeeForm.get('fatherName')?.invalid && addEmployeeForm.get('fatherName')?.touched">
+                  <p class="text-danger" *ngIf="addEmployeeForm.get('fatherName')?.errors?.['required']">Father Name is required.</p>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="taxNo" class="form-label">Tax No <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="taxNo" formControlName="taxNo"/>
+                <div *ngIf="addEmployeeForm.get('taxNo')?.invalid && addEmployeeForm.get('taxNo')?.touched">
+                  <p class="text-danger" *ngIf="addEmployeeForm.get('taxNo')?.errors?.['required']">Tax No is required.</p>
+                </div>
+              </div>   
+              <div class="mb-3">
+                <label for="gender" class="form-label">Gender <span class="text-danger">*</span></label>
+                <div class="d-flex">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      value="male"
+                      formControlName="gender"
+                    />
+                    <label class="form-check-label" for="male"> Male </label>
+                  </div>
+    
+                  &nbsp;&nbsp;
+    
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      value="female"
+                      formControlName="gender"
+                    />
+                    <label class="form-check-label" for="female"> Female </label>
+                  </div>
+                  <div *ngIf="addEmployeeForm.get('gender')?.invalid && addEmployeeForm.get('gender')?.touched">
+                    <p class="text-danger" *ngIf="addEmployeeForm.get('gender')?.errors?.['required']">Gender is required.</p>
+                  </div>
+                </div>
+              </div>  
+              
+              <div class="mb-3" formArrayName="education">
+                <div class="float-end">             
+                  <a class="btn btn-small" (click)="addRow()"><i class="fa-solid fa-plus"></i></a>
+                </div>
+                <div class="mb-3">
+                  <label for="education" class="form-label">Education <span class="text-danger">*</span></label>
+                 <div class="mt-3 education p-2">
+                  <div class="d-flex justify-content-around mt-3" *ngFor="let educationForm of education.controls; let i = index" [formGroupName]="i">
+                    <div class="row g-3 p-1">
+                      <div class="col-auto">
+                        <label for="educationType" class="col-form-label">Type</label>
+                        <select
+                          class="form-select"
+                          id="type"
+                          formControlName="type"                   
+                        >
+                          <option disabled selected value="">Select Education Type</option>
+                          <option value="Bachelor">Bachelor</option>
+                          <option value="Master">Master</option>
+                          <option value="Diploma">Diploma</option>
+                        </select>
+                        <div *ngIf="educationForm.get('type')?.invalid && educationForm.get('type')?.touched">
+                          <p class="text-danger" *ngIf="educationForm.get('type')?.errors?.['required']">Education type is required.</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row g-3 p-1">
+                      <div class="col-auto">
+                        <label for="educationName" class="col-form-label">Name</label>
+                        <input
+                          type="text"
+                          id="educationName"
+                          class="form-control" 
+                          formControlName="name"                                         
+                        />
+                        <div *ngIf="educationForm.get('name')?.invalid && educationForm.get('name')?.touched">
+                          <p class="text-danger" *ngIf="educationForm.get('name')?.errors?.['required']">Education name is required.</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="" *ngIf="i > 0 || education.controls.length > 1">
+                      <a class="btn btn-small mt-5" (click)="deleteRow(i)"><i class="fa-solid fa-xmark"></i></a>
+                    </div>
+                  </div>  
+                 </div>          
+    
+                </div>
+              </div>
+             
+            </div>
+            <div class="w-50 m-3">
+              <div class="mb-3">
+                <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="name" formControlName="name"/>
+                <div *ngIf="addEmployeeForm.get('name')?.invalid && addEmployeeForm.get('name')?.touched">
+                  <p class="text-danger" *ngIf="addEmployeeForm.get('name')?.errors?.['required']">Name is required.</p>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="department" class="form-label">Department <span class="text-danger">*</span></label>
+                <select class="form-select" aria-label="Default select example" formControlName="department">
+                  <option disabled selected value="">Select Department</option>
+                  <option value="SED">SED</option>
+                  <option value="ERP">ERP</option>
+                  <option value="Banking">Banking</option>
+                </select>
+                <div *ngIf="addEmployeeForm.get('department')?.invalid && addEmployeeForm.get('department')?.touched">
+                  <p class="text-danger" *ngIf="addEmployeeForm.get('department')?.errors?.['required']">Department is required.</p>
+                </div>
+              </div> 
+           
+              <div class="mb-3">
+                <label for="dob" class="form-label">Date Of Birth <span class="text-danger">*</span></label>
+                <input type="date" class="form-control" id="dob" formControlName="dob"/>
+                <div *ngIf="addEmployeeForm.get('dob')?.invalid && addEmployeeForm.get('dob')?.touched">
+                  <p class="text-danger" *ngIf="addEmployeeForm.get('dob')?.errors?.['required']">Date of Birth is required.</p>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="license" class="form-label">License <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="license" formControlName="license"/>
+                <div *ngIf="addEmployeeForm.get('license')?.invalid && addEmployeeForm.get('license')?.touched">
+                  <p class="text-danger" *ngIf="addEmployeeForm.get('license')?.errors?.['required']">License is required.</p>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="address" class="form-label">Address <span class="text-danger">*</span></label>
+                <textarea class="form-control" rows="3" id="address" formControlName="address"></textarea>
+                <div *ngIf="addEmployeeForm.get('address')?.invalid && addEmployeeForm.get('address')?.touched">
+                  <p class="text-danger" *ngIf="addEmployeeForm.get('address')?.errors?.['required']">Address is required.</p>
+                </div>
+              </div>             
+            </div>
+          </div>
+
+          <div class="float-end m-3">
+            <button type="submit" class="btn">Save</button>
+            &nbsp;
+            <button type="button" class="btn" (click)="deleteModal(close,syskey)">Delete</button>
+          </div>
+        </form>
+      </div>
+    </div>  
+  </div>
+  
+  
+
+   <!-- Delete Employee Modal -->
+   <ng-template #close let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h3 class="modal-title">Delete Employee</h3>
+      <a  class="close" aria-label="Close"  (click)="d('Cross click')">
+        <span aria-hidden="true"><i class="fa-solid fa-xmark"></i></span>        
+      </a>
+    </div>
+    <div class="modal-body">
+      <p>Are you sure you want to delete this employee ?</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn"  (click)="d('Cross click')" >Close</button>
+      <button type="button" class="btn" (click)="c('yes')">Delete</button>
+    </div>
+  </ng-template> 

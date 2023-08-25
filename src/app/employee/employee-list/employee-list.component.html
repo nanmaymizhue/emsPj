@@ -1,0 +1,115 @@
+<div class="container mt-5"> 
+      
+      <div class="d-flex justify-content-between">
+          <h3>Employees</h3>
+          <div class="d-flex">          
+            <div class="row g-3 col-auto input-container">
+              <form class="d-flex">
+                <input
+                  type="text"
+                  name="name"
+                  class="form-control me-1"
+                  placeholder="Search ..."             
+                  [(ngModel)]="search"              
+                />   
+                    
+                <button class="btn d-flex" (click)="getEmployeeList()"><i class="fa-solid fa-magnifying-glass mt-2"></i> <span class="ms-1 mt-1">Search</span></button>           
+              </form>
+            </div>           
+            <div class="ms-2">
+              <button class="btn me-2" (click)="goNew()"><i class="fa-solid fa-plus"></i> New</button>
+             
+              <button class="btn me-2" (click)="exportToExcel()"><i class="fa-solid fa-file-export"></i> Export</button>
+            
+              <button class="btn" (click)="importEmployeeModal(importEmployee)"><i class="fa-solid fa-file-import"></i> Import</button>
+            </div>
+          </div> 
+          <h3>Total-Count : <span class="badge">{{_totalListcount}}</span></h3>
+      </div>
+   
+    <table class="table table-hover mt-3">
+      <thead class="text-center">
+        <tr>
+          <th scope="col">No></th>
+          <th scope="col">ID  <i class="fa-solid fa-arrows-up-down" (click)="sortEmployeeId()"></i></th>
+          <th scope="col">Name <i class="fa-solid fa-arrows-up-down" (click)="sortName()"></i></th>
+          <th scope="col">Position <i class="fa-solid fa-arrows-up-down" (click)="sortPosition()"></i></th>
+          <th scope="col">Department <i class="fa-solid fa-arrows-up-down" (click)="sortDepartment()"></i></th>      
+          <th scope="col">NRC <i class="fa-solid fa-arrows-up-down" (click)="sortNrc()"></i></th>       
+          <th scope="col">License <i class="fa-solid fa-arrows-up-down" (click)="sortLicense()"></i></th>
+          <th scope="col">Tax No <i class="fa-solid fa-arrows-up-down" (click)="sortTaxNo()"></i></th>
+          <th scope="col">Image <i class="fa-solid fa-arrows-up-down" (click)="sortImage()"></i></th>          
+        </tr>
+      </thead>
+      <tbody *ngIf="employeelist.length == 0 && isloading">
+        <tr>
+            <td colspan="10" class="text-center"><i class="fas fa-spinner fa-spin"></i>
+            </td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="employeelist.length == 0 && !isloading">          
+          <tr>
+            <td colspan="10" class="text-center"><p class="mt-2 text-danger fw-bold">Employee List Empty !</p></td>
+          </tr>
+      </tbody>
+      <tbody class="text-center">
+        <ng-container *ngFor="let e of employeelist| paginate:    
+        {
+           itemsPerPage: pagesize,
+           currentPage: currentpage,
+           totalItems: _totalListcount
+         };let i=index">
+          <tr (click)="goGet(employeelist[i].syskey)">
+              <th scope="row">{{ i + 1 }}</th>
+              <td>{{ e.employeeId }}</td>
+              <td>{{ e.name }}</td>
+              <td>{{ e.position }}</td>
+              <td>{{ e.department }}</td>       
+              <td>{{ e.nrc }}</td>       
+              <td>{{ e.license }}</td>
+              <td>{{ e.taxNo }}</td>
+              <td *ngIf="e.image">
+                <div class="mb-1">
+                  <img [src]="'http://localhost:9090/EmployeeManagementSystem/module001/service001/getImage?name='+e.image" alt="Profile Image" /> 
+                </div>
+              </td>
+              <td *ngIf="!e.image">
+                <img [src]="defaultProfile" alt="Profile Image" /> 
+              </td>
+             
+            </tr> 
+            </ng-container>
+
+      </tbody> 
+
+    </table>
+
+  
+    <div style="text-align: center;margin-top: 20px;font-size: 12px;">
+        <pagination-controls  previousLabel="Prev" nextLabel="Next" (pageChange)="handlePageChange($event)"></pagination-controls>
+    </div>
+    
+  </div>
+
+ 
+<!-- Import Employee Modal-->
+<ng-template #importEmployee let-modal>
+    <div class="modal-header">
+      <h3>Choose File For Import Employee</h3>
+      <a class="close" aria-label="Close"  (click)="modal.dismiss()">
+        <span aria-hidden="true"><i class="fa-solid fa-xmark"></i></span>           
+      </a>
+    </div>
+    <div class="modal-body p-4">
+      <form> 
+        <input type="file" (change)="onFileSelected($event)" class="form-control" name="imageFile" #imageFileInput />
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn" (click)="modal.dismiss()">Close</button>
+      <button type="submit" class="btn" (click)="onSubmit()">Save</button>
+    </div>
+  </ng-template> 
+
+
+  
