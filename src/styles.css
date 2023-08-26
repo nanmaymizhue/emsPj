@@ -1,3 +1,4 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
@@ -9,10 +10,15 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     --light-color:#fff;
     --gray-color:#fffbfb;  
 }
+
 .mat-mdc-snack-bar-container.custom-snackbar{
     --mdc-snackbar-container-color:#fff;
     /* --mat-mdc-snack-bar-button-color:red; */
-    --mdc-snackbar-supporting-text-color:#1e6262;    
-  
-  
+    --mdc-snackbar-supporting-text-color:#1e6262;
+    --mdc-snackbar-supporting-width:50px;
+}
+
+.custom-snackbar button{
+    width:50px;
+    height: 50px;
 }

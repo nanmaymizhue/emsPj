@@ -52,6 +52,9 @@ thead>tr>th{
     background-color: var(--secondary-color); 
     font-weight: 500;  
 }
+thead>tr>th>i{   
+    font-size: 12px;  
+}
 
 
  tbody > tr{

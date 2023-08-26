@@ -24,21 +24,21 @@
               <button class="btn" (click)="importEmployeeModal(importEmployee)"><i class="fa-solid fa-file-import"></i> Import</button>
             </div>
           </div> 
-          <h3>Total-Count : <span class="badge">{{_totalListcount}}</span></h3>
+          <h3>TotalCount : <span class="badge">{{_totalListcount}}</span></h3>
       </div>
    
     <table class="table table-hover mt-3">
       <thead class="text-center">
         <tr>
-          <th scope="col">No></th>
-          <th scope="col">ID  <i class="fa-solid fa-arrows-up-down" (click)="sortEmployeeId()"></i></th>
-          <th scope="col">Name <i class="fa-solid fa-arrows-up-down" (click)="sortName()"></i></th>
-          <th scope="col">Position <i class="fa-solid fa-arrows-up-down" (click)="sortPosition()"></i></th>
-          <th scope="col">Department <i class="fa-solid fa-arrows-up-down" (click)="sortDepartment()"></i></th>      
-          <th scope="col">NRC <i class="fa-solid fa-arrows-up-down" (click)="sortNrc()"></i></th>       
-          <th scope="col">License <i class="fa-solid fa-arrows-up-down" (click)="sortLicense()"></i></th>
-          <th scope="col">Tax No <i class="fa-solid fa-arrows-up-down" (click)="sortTaxNo()"></i></th>
-          <th scope="col">Image <i class="fa-solid fa-arrows-up-down" (click)="sortImage()"></i></th>          
+          <th scope="col">No</th>
+          <th scope="col">ID  <i class="fa-solid fa-sort" (click)="sortEmployeeId()"></i></th>
+          <th scope="col">Name <i class="fa-solid fa-sort" (click)="sortName()"></i></th>
+          <th scope="col">Position <i class="fa-solid fa-sort" (click)="sortPosition()"></i></th>
+          <th scope="col">Department <i class="fa-solid fa-sort" (click)="sortDepartment()"></i></th>      
+          <th scope="col">NRC <i class="fa-solid fa-sort" (click)="sortNrc()"></i></th>       
+          <th scope="col">License <i class="fa-solid fa-sort" (click)="sortLicense()"></i></th>
+          <th scope="col">Tax No <i class="fa-solid fa-sort" (click)="sortTaxNo()"></i></th>
+          <th scope="col">Image <i class="fa-solid fa-sort" (click)="sortImage()"></i></th>          
         </tr>
       </thead>
       <tbody *ngIf="employeelist.length == 0 && isloading">

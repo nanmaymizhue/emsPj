@@ -6,6 +6,8 @@ import { RestService } from 'src/app/services/rest.service';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { lastValueFrom } from 'rxjs';
 import { MessageService } from 'src/app/services/message.service';
+import { environment } from 'src/app/services/environment';
+
 
 
 @Component({
@@ -106,7 +108,7 @@ export class AddEmployeeComponent implements OnInit {
     });
 
     this.profileImageUrl = res.image
-      ? "http://localhost:9090/EmployeeManagementSystem/module001/service001/getImage?name=" + res.image
+      ? environment.apiurl+"service001/getImage?name=" + res.image
       : "assets/defaultProfile.png";
 
     const educationArray = this.addEmployeeForm.get('education') as FormArray;
@@ -128,11 +130,11 @@ export class AddEmployeeComponent implements OnInit {
       const employeeData = this.addEmployeeForm.value;
       const res: any = await lastValueFrom(this.rest.post('service001/saveEmployee', employeeData));
       if (res.state) {
-        this.messageService.openSnackBar(res.msgDesc, '');
+        this.messageService.openSnackBar("Save Successful !", '');
         this.router.navigate(['/employee-list']);
 
       } else {
-        this.messageService.openSnackBar(res.msgDesc, '');
+        this.messageService.openSnackBar("Save Failed !", '');
       }
     } else {
       this.messageService.openSnackBar("Please fill required", '');
@@ -193,9 +195,9 @@ export class AddEmployeeComponent implements OnInit {
     console.log("Syskey" + syskey);
     const res: any = await lastValueFrom(this.rest.delete('service001/deleteEmployee?syskey=' + this.syskey));
     if (res.state) {
-      this.messageService.openSnackBar("Delete Successfully", '');
+      this.messageService.openSnackBar("Delete Successful !", '');
     } else {
-      this.messageService.openSnackBar(res.msgDesc, '');
+      this.messageService.openSnackBar("Delete Failed !", '');
     }
     this.router.navigate(['employee-list']);
 

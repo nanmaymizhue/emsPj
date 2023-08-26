@@ -92,9 +92,9 @@ async exportToExcel():Promise<void>{
       const res: HttpResponse<Blob> =await lastValueFrom(this.rest.exportExcel('service001/export'));
      
       await this.downloadFile(res);
-       this.messageService.openSnackBar("Excel downloaded successfully!",'');
+       this.messageService.openSnackBar("Download Successful !",'');
     } catch (error) {
-       this.messageService.openSnackBar("Failed to download excel file!",'');
+       this.messageService.openSnackBar("Download Failed !",'');
     }
  
   }
@@ -139,11 +139,11 @@ async onSubmit():Promise<void>{
  
     const res:any= await lastValueFrom(this.rest.goUpload('service001/import',this.fileToUpload));
     if(res.state){
-       this.messageService.openSnackBar("Employee data imported successfully!", '');
+       this.messageService.openSnackBar("Import Successful !", '');
       this.modalService.dismissAll();
       await  this.getEmployeeList();
     }else{
-       this.messageService.openSnackBar("Failed to import employee data!", '');
+       this.messageService.openSnackBar("Import Failed !", '');
       this.modalService.dismissAll();
     }    
  
