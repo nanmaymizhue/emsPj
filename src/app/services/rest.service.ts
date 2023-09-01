@@ -41,39 +41,24 @@ export class RestService {
   uploadImage(url: string,file:any) {
     const fd = new FormData();  
     fd.append('image', file);
-          return this.http.post(`${environment.apiurl}${url}`,fd);
+      return this.http.post(`${environment.apiurl}${url}`,fd);
 }
-
-
-// exportToExcel(): Observable<HttpResponse<Blob>> {
-//   const headers = new HttpHeaders({
-//     Accept: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ,
-//   });
-
-//   return this.http.get<Blob>("http://localhost:9090/EmployeeManagementSystem/module001/service001/export", {
-//     headers: headers,
-//     observe: 'response',
-//     responseType: 'blob' as 'json',
-//   });
-// }
-
-
-
-
 
 
 exportExcel(url: string): Observable<HttpResponse<Blob>> {
+
   const headers = new HttpHeaders({
-    'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+     'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
   });
 
-  return this.http.get<Blob>(`${environment.apiurl}${url}`, {
+  return this.http.get(`${environment.apiurl}${url}`, {
     headers: headers,
     observe: 'response',
-    responseType: 'blob' as 'json',
+    responseType: 'blob'
   });
 
 }
+
 
   getHeaders() {
     return {

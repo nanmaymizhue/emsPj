@@ -50,6 +50,11 @@ export class EmployeeListComponent {
     await this.getEmployeeList();
   }
 
+  async searchList(){
+    this.currentpage = 1;
+    await this.getEmployeeList();
+  }
+
   async getEmployeeList(){
     let  searchObj = {
       "pagesize": this.pagesize,
@@ -84,43 +89,78 @@ export class EmployeeListComponent {
   goGet(syskey:string){
     this.router.navigate(['add-employee',syskey]);
   }
+  
 
- 
+async exportToExcel(){ 
+  try{ 
+    const response = await lastValueFrom(this.rest.exportExcel('service001/export'));
 
-async exportToExcel():Promise<void>{   
-     try {      
-      const res: HttpResponse<Blob> =await lastValueFrom(this.rest.exportExcel('service001/export'));
+    const blob = new Blob([response.body as BlobPart], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+
+        const downloadLink = document.createElement('a');
+
+        downloadLink.href = URL.createObjectURL(blob);
+
+        downloadLink.download = 'employee.xlsx';       
+
+        document.body.appendChild(downloadLink);
+
+        downloadLink.click();
+
+        document.body.removeChild(downloadLink);
+
+        this.messageService.openSnackBar("Download Successful !",'');
      
-      await this.downloadFile(res);
-       this.messageService.openSnackBar("Download Successful !",'');
-    } catch (error) {
-       this.messageService.openSnackBar("Download Failed !",'');
-    }
+  }catch{
+       this.messageService.openSnackBar("Download Fail !",'');
+  }
+}
+
+  
+
+// async exportToExcel():Promise<void>{   
+//      try {      
+//        const res:any=this.rest.exportExcel('service001/export');
+      
+//       console.log('Export',res);
+//        await this.downloadFile(res);
+//         this.messageService.openSnackBar("Download Successful !",'');
+//     } catch (error) {
+//        this.messageService.openSnackBar("Download Failed !",'');
+//     }
  
-  }
+//   }
 
-async downloadFile(response: HttpResponse<Blob>) {
-    const contentDispositionHeader: string | null = response.headers.get('Content-Disposition');
-    const filename = contentDispositionHeader
-      ? contentDispositionHeader.split(';')[1].trim().split('=')[1]
-      : 'employee.xlsx';
-  
-    if (!response.body) {
-      console.error('Response body is empty.');
-      return;
-    }
-  
-    const url = window.URL.createObjectURL(response.body);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    window.URL.revokeObjectURL(url);
-  }
+// async downloadFile(response: HttpResponse<Blob>) {
+//     const contentDispositionHeader: string | null = response.headers.get('Content-Disposition');
+//     const filename = contentDispositionHeader
+//       ? contentDispositionHeader.split(';')[1].trim().split('=')[1]
+//       : 'employee.xlsx';
 
- importEmployeeModal(importEmployee:any){
+//     if (!response.body) {
+//       console.error('Response body is empty.');
+//       return;
+//     }
+  
+//     const url = window.URL.createObjectURL(response.body);
+//     const a = document.createElement('a');
+//     a.href = url;
+//     a.download = filename;
+//     document.body.appendChild(a);
+//     a.click();
+//     document.body.removeChild(a);
+//     window.URL.revokeObjectURL(url);
+//   }
+
+
+
+
+
+  //import Employee
+ 
+
+
+importEmployeeModal(importEmployee:any){
   this.modalService.open(importEmployee,{ariaLabelledBy:'importEmployee'})
  }
 
@@ -149,6 +189,7 @@ async onSubmit():Promise<void>{
  
 }
 
+//table header sort
 sortEmployeeId(){
  this.isEmployeeIdDescending = !this.isEmployeeIdDescending;
  this.employeelist.sort((a,b)=>{

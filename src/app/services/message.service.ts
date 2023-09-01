@@ -13,7 +13,7 @@ export class MessageService {
      horizontalPosition: 'center',
      verticalPosition: 'top',  
      panelClass: ['snackbar', 'snackbar-' + type, 'mat-typography','custom-snackbar'],
-     duration: 3000,
+     duration: 5000,
      
     });
   }

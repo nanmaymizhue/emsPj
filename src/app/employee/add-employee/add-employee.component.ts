@@ -137,7 +137,7 @@ export class AddEmployeeComponent implements OnInit {
         this.messageService.openSnackBar("Save Failed !", '');
       }
     } else {
-      this.messageService.openSnackBar("Please fill required", '');
+      this.messageService.openSnackBar("Please fill required !", '');
     }
   }
 
@@ -160,8 +160,8 @@ export class AddEmployeeComponent implements OnInit {
       this.imageName = res["img"];
       this.addEmployeeForm.patchValue({ image: this.imageName });
       this.modalService.dismissAll();
-      this.profileImageUrl = "http://localhost:9090/EmployeeManagementSystem/module001/service001/getImage?name=" + this.imageName;
-
+      // this.profileImageUrl = "http://localhost:9090/EmployeeManagementSystem/module001/service001/getImage?name=" + this.imageName;
+      this.profileImageUrl=environment.apiurl + "service001/getImage?name=" + this.imageName;
 
     }
 
